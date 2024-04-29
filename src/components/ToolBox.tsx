@@ -7,6 +7,7 @@ import {
 } from "react-icons/io5";
 import { MdOutlineReplay } from "react-icons/md";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const ToolBox = ({
   start,
@@ -66,9 +67,12 @@ const ToolBox = ({
       >
         <MdOutlineReplay className="w-[24px] h-[24px] md:w-[32px] md:h-[32px]" />
       </button>
-      <button className="rounded-full p-1 md:p-2 hover:bg-slate-50/30">
+      <Link
+        to={"/roundTimer"}
+        className="rounded-full p-1 md:p-2 hover:bg-slate-50/30"
+      >
         <IoClose className="w-[24px] h-[24px] md:w-[32px] md:h-[32px]" />
-      </button>
+      </Link>
     </div>
   );
 };

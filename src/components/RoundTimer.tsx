@@ -4,22 +4,20 @@ import signal from "../assets/signal.mp3";
 import MainTimer from "./MainTimer";
 import UpcomingTimer from "./UpcomingTimer";
 import ToolBox from "./ToolBox";
-import { RoundTimerType } from "../App";
 import { formatTime } from "../utils/timers";
-function RoundTimer({
-  roundTimer,
-  primaryColor,
-  secondaryColor,
-}: {
-  roundTimer: RoundTimerType;
-  primaryColor?: string;
-  secondaryColor?: string;
-}) {
-  const roundColor = primaryColor ? `${primaryColor}` : "bg-blue-500";
-  const restColor = secondaryColor ? `${secondaryColor}` : "bg-red-500";
+import { useLocation } from "react-router-dom";
+function RoundTimer() {
+  const navigation = useLocation();
+  const { roundTimer, primaryColor, secondaryColor } = navigation.state;
+  const roundColor = primaryColor
+    ? `${primaryColor}`
+    : "bg-gradient-to-r from-blue-500 to-indigo-500";
+  const restColor = secondaryColor
+    ? `${secondaryColor}`
+    : "bg-gradient-to-r from-red-500 to-pink-500";
 
   const allRounds: { time: number; color: string; roundNumber?: number }[] = [];
-  roundTimer.rounds.map((round, index) => {
+  roundTimer.rounds.map((round: number, index: number) => {
     if (index == roundTimer.rounds.length - 1) {
       allRounds.push({
         time: round,
@@ -50,8 +48,8 @@ function RoundTimer({
   const countdownRef = useRef(null);
   const signalRef = useRef<HTMLAudioElement>(null);
   const start = () => {
-    const interval = setInterval(() => {
-      setTime((prev) => prev - 1);
+    const interval = window.setInterval(() => {
+      setTime((prev: number) => prev - 1);
     }, 1000);
     setIntervalId(interval);
   };

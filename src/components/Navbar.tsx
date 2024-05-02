@@ -1,20 +1,53 @@
 import { BiMenu } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   return (
     <>
       <div className="flex md:hidden justify-between items-center p-4 ">
-        <div className="flex w-1/4 gap-4 items-center">
+        <Link to="/" className="flex w-1/4 gap-4 items-center">
           <div className="flex gap-1">
             <div className="rounded-full w-6 h-6 bg-slate-400"></div>
             <div className="rounded-lg w-6 h-6 bg-black"></div>
           </div>
           <h1 className="text-xl font-bold">RoundMaster</h1>
-        </div>
-        <button className="p-2 hover:bg-slate-100 rounded-xl">
-          <BiMenu size={32} />
-        </button>
+        </Link>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            {" "}
+            <BiMenu size={32} />{" "}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="min-w-56 mr-4 flex flex-col gap-2  p-4">
+            <DropdownMenuItem>
+              <Link to="/roundTimer">Round Timer</Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link to="/reactionTimer">Reaction Timer</Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link to="/">Premium Features</Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link
+                to="/"
+                className=" bg-white px-4 py-2 rounded-xl border-2 border-black  text-black hover:bg-lime-200"
+              >
+                Get Started
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div className="hidden md:flex bg-white px-8 py-8 items-center justify-between">
         <Link to="/" className="flex w-1/3 gap-4 items-center">

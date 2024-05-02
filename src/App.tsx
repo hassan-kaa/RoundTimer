@@ -9,6 +9,7 @@ import ErrorPage from "./pages/ErrorPage";
 import ReactionTimerPage from "./pages/ReactionTimerPage";
 import RoundTimerPage from "./pages/RoundTimerPage";
 import RoundTimer from "./components/RoundTimer";
+import ReactionTimer from "./components/ReactionTimer";
 export type RoundTimerType = {
   name: string;
   rounds: number[];
@@ -19,8 +20,9 @@ const router = createBrowserRouter(
   createRoutesFromElements([
     <Route path="/" element={<Home />} />,
     <Route path="reactionTimer" element={<ReactionTimerPage />} />,
+    <Route path="reactionTimer/:name" element={<ReactionTimer />} />,
     <Route path="roundTimer" element={<RoundTimerPage />} />,
-    <Route path="roundTimer/:id" element={<RoundTimer />} />,
+    <Route path="roundTimer/:name" element={<RoundTimer />} />,
     <Route path="*" element={<ErrorPage />} />,
   ])
 );

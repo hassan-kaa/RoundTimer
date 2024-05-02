@@ -1,6 +1,5 @@
-import { useEffect, useState, useRef, Fragment } from "react";
-import countdownAudio from "../assets/countdown.flac";
-import signal from "../assets/signal.mp3";
+import { useEffect, useState, Fragment } from "react";
+import signalSound from "../assets/signal.mp3";
 import MainTimer from "./MainTimer";
 import UpcomingTimer from "./UpcomingTimer";
 import ToolBox from "./ToolBox";
@@ -45,8 +44,7 @@ function RoundTimer() {
       allRounds
     );
   const [intervalId, setIntervalId] = useState(-1);
-  const countdownRef = useRef(null);
-  const signalRef = useRef<HTMLAudioElement>(null);
+  const signal = new Audio(signalSound);
   const start = () => {
     const interval = window.setInterval(() => {
       setTime((prev: number) => prev - 1);
@@ -77,7 +75,7 @@ function RoundTimer() {
       clearInterval(intervalId);
       setRounds((prev) => prev.slice(1));
     }
-    if (time == 1 && signalRef.current) signalRef.current.play();
+    if (time == 1 && signal) signal.play();
     if (rounds.length == allRounds.length && time == allRounds[0].time)
       setGlobalTime(0);
     else if (time != 0) setGlobalTime((prev) => prev + 1);
@@ -179,8 +177,6 @@ function RoundTimer() {
               }
             })}
         </div>
-        <audio src={countdownAudio} controls={false} ref={countdownRef}></audio>
-        <audio src={signal} controls={false} ref={signalRef}></audio>
       </div>
     </div>
   );

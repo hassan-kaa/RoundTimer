@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import PrebuitTimers from "../components/PrebuiltTimers";
+import { FaCheckCircle } from "react-icons/fa";
 
 const formSchema = z.object({
   name: z
@@ -37,7 +38,7 @@ const formSchema = z.object({
     .min(1, { message: "round duration must be longer than 5 seconds." }),
 });
 
-const timerThemes = [
+export const timerThemes = [
   {
     primaryColor: "bg-gradient-to-r from-cyan-200 to-blue-500",
     secondaryColor: "bg-red-500",
@@ -188,9 +189,9 @@ const RoundTimerPage = () => {
                     } hover:scale-110 trasition ease-in-out duration-200 `}
                   >
                     <div
-                      className={`w-6 h-6 rounded-lg ${theme.secondaryColor}`}
+                      className={`w-6 h-6 rounded-lg  flex items-center justify-center ${theme.secondaryColor}`}
                     >
-                      {selectedTheme == index && "✔"}
+                      {selectedTheme == index && <FaCheckCircle size={16} />}
                     </div>
                   </div>
                 ))}

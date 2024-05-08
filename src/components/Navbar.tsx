@@ -22,7 +22,6 @@ const Navbar = () => {
     } else {
       setUser(null);
     }
-    console.log("auth state changed", user);
   });
   const handleLogout = async () => {
     try {

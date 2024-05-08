@@ -4,10 +4,11 @@ import MainTimer from "./MainTimer";
 import UpcomingTimer from "./UpcomingTimer";
 import ToolBox from "./ToolBox";
 import { formatTime } from "../utils/timers";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 function RoundTimer() {
-  const navigation = useLocation();
-  const { roundTimer, primaryColor, secondaryColor } = navigation.state;
+  const location = useLocation();
+  if (location.state == null) return <Navigate to="/roundTimer" />;
+  const { roundTimer, primaryColor, secondaryColor } = location.state;
   const roundColor = primaryColor
     ? `${primaryColor}`
     : "bg-gradient-to-r from-blue-500 to-indigo-500";

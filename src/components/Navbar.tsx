@@ -1,5 +1,5 @@
 import { BiMenu } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,8 +7,32 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { auth } from "../utils/firebase";
+import { useState } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { Button } from "@/components/ui/button";
+import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(auth.currentUser);
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUser(user);
+    } else {
+      setUser(null);
+    }
+    console.log("auth state changed", user);
+  });
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="flex md:hidden justify-between items-center p-4 ">
@@ -25,6 +49,29 @@ const Navbar = () => {
             <BiMenu size={32} />{" "}
           </DropdownMenuTrigger>
           <DropdownMenuContent className="min-w-56 mr-4 flex flex-col gap-2  p-4">
+            {user && (
+              <>
+                <DropdownMenuItem>
+                  <Link
+                    to={`/profile/${user.uid}`}
+                    className="flex items-center w-full justify-between gap-2"
+                  >
+                    Profile
+                    {user.photoURL ? (
+                      <img
+                        src={user.photoURL}
+                        alt="profile photo"
+                        className="rounded-full w-8 h-8"
+                      />
+                    ) : (
+                      <FaUser size={24} />
+                    )}
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+              </>
+            )}
+
             <DropdownMenuItem>
               <Link to="/roundTimer">Round Timer</Link>
             </DropdownMenuItem>
@@ -37,14 +84,27 @@ const Navbar = () => {
               <Link to="/">Premium Features</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Link
-                to="/"
-                className=" bg-white px-4 py-2 rounded-xl border-2 border-black  text-black hover:bg-lime-200"
-              >
-                Get Started
-              </Link>
-            </DropdownMenuItem>
+            {user && (
+              <DropdownMenuItem>
+                <Button onClick={handleLogout}>Logout</Button>
+              </DropdownMenuItem>
+            )}
+            {!user && (
+              <DropdownMenuItem className="w-full flex gap-2">
+                <Link
+                  to="/signup"
+                  className=" bg-white px-4 py-2 rounded-xl border-2 border-black  text-black hover:bg-lime-200"
+                >
+                  Get Started
+                </Link>
+                <Link
+                  to="/login"
+                  className="  px-4 py-2 rounded-xl border-2 text-white bg-black hover:bg-slate-700"
+                >
+                  Login
+                </Link>
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -62,19 +122,58 @@ const Navbar = () => {
           </Link>
           <Link
             to="/reactionTimer"
-            className="  text-black hover:text-slate-800 active:text-blue-600"
+            className="  text-black hover:text-slate-800"
           >
             Reaction Timer
           </Link>
-          <Link to="/roundTimer" className="  text-black hover:text-slate-800">
-            Premium Features
-          </Link>
           <Link
-            to="/roundTimer"
-            className=" bg-white px-4 py-2 rounded-xl border-2 border-black  text-black hover:bg-lime-200"
+            to="/reactionTimer"
+            className="  text-black hover:text-slate-800"
           >
-            Get Started
+            Features
           </Link>
+
+          <div className="flex gap-2">
+            {!user ? (
+              <>
+                <Link
+                  to="/signup"
+                  className=" bg-white px-4 py-2 rounded-xl border-2 border-black  text-black hover:bg-lime-200"
+                >
+                  Get Started
+                </Link>
+                <Link
+                  to="/login"
+                  className="  px-4 py-2 rounded-xl border-2 text-white bg-black hover:bg-slate-700"
+                >
+                  Login
+                </Link>
+              </>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  {user.photoURL ? (
+                    <img
+                      src={user.photoURL}
+                      alt="profile photo"
+                      className="rounded-full w-8 h-8"
+                    />
+                  ) : (
+                    <FaUser size={32} />
+                  )}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="min-w-56 mr-4 flex flex-col gap-2  p-4">
+                  <Link to={`/profile/${user.uid}`}>
+                    <DropdownMenuItem className="cursor-pointer">
+                      Profile
+                    </DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuSeparator />
+                  <Button onClick={handleLogout}>Logout</Button>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </div>
         </div>
       </div>
     </>

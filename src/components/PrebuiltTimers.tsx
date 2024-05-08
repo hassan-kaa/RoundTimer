@@ -1,33 +1,10 @@
 import { useState } from "react";
 import TimerCard from "./TimerCard";
 import { RoundTimerType } from "../App";
+import { getTimers } from "../utils/api";
 
-const timers = [
-  {
-    name: "Tabata",
-    rounds: [20, 20, 20, 20, 20, 20, 20, 20],
-    restDuration: 10,
-    description: "8 rounds of 20s work, 10s rest",
-  },
-  {
-    name: "EMOM",
-    rounds: [60, 60, 60, 60, 60],
-    restDuration: 0,
-    description: "Every Minute On the Minute",
-  },
-  {
-    name: "AMRAP",
-    rounds: [600],
-    restDuration: 0,
-    description: "As Many Rounds As Possible in 10min",
-  },
-  {
-    name: "HIIT",
-    rounds: [60, 60, 60, 60, 60],
-    restDuration: 30,
-    description: "continuous 60s high intensity, 30s low intensity",
-  },
-];
+const timers = await getTimers();
+console.log(timers);
 
 const PrebuitTimers = ({
   selectTimer,

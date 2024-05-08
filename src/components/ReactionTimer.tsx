@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import ToolBox from "./ToolBox";
 import { useEffect, useState } from "react";
 import { formatTime } from "../utils/timers";
@@ -6,6 +6,7 @@ import signalAudio from "../assets/signal.mp3";
 import whistleSignal from "../assets/whistle.mp3";
 const ReactionTimer = () => {
   const location = useLocation();
+  if (!location.state) return <Navigate to="/reactionTimer" />;
   const { timer, primaryColor, secondaryColor } = location.state;
   const [bgColor, setbgColor] = useState(primaryColor);
   const [intervalId, setIntervalId] = useState(-1);
@@ -61,7 +62,7 @@ const ReactionTimer = () => {
     <div
       className={`${bgColor} w-full h-screen flex items-center justify-center gap-10 font-bold text-white flex-col transition duration-300 ease-in-out`}
     >
-      <h1 className="text-xl font-thin italic text-center w-2/3 mix-blend-exclusion">
+      <h1 className="text-xl font-thin italic text-center w-2/3 ">
         React as fast as you can when you hear the whistle !
       </h1>
       <h1 className="font-bold text-white text-[6rem] md:text-[8rem] text-center">
